@@ -1,0 +1,79 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Create an IAM role equipped with permissions to execute an AWS Glue notebook that can communicate with AWS Entity Resolution, and Amazon Bedrock (XXXX)."
+
+Resources:
+  NotebookIAMRole:
+    Type: AWS::IAM::Role
+    Properties: 
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - glue.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Description: Role for AWS Glue notebook
+      RoleName: !Join
+                  - ''
+                  - - 'RuleRecommendationNotebookIAMRole-'
+                    - !Ref AWS::AccountId
+      Policies:
+        - PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'entityresolution:GetSchemaMapping'
+                Resource: '*'
+          PolicyName: entityResolution
+        - PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'iam:PassRole'
+                  - 'glue:GetStatement'
+                  - 'glue:RunStatement'
+                  - 'glue:CancelStatement'
+                  - 'glue:GetSession'
+                  - 'glue:CreateSession'
+                  - 'glue:TagResource'
+                  - 'glue:GetTable'
+                  - 'glue:GetPartitions'
+                  - 's3:ListBucket'
+                  - 's3:GetObject'
+                Resource: '*'
+          PolicyName: glue
+        - PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'bedrock:InvokeModel'
+                Resource:
+                  - 'arn:aws:bedrock:*::foundation-model/*'
+                  - 'arn:aws:bedrock:*:*:inference-profile/*'
+          PolicyName: bedrock
+        - PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'codewhisperer:GenerateRecommendations'
+                Resource: '*'
+          PolicyName: codewhisperer
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: F38
+            reason: 'the iam:PassRole is required by the glue service'
+          - id: W11
+            reason: 'This is in accordance to AWS documentation: https://docs.aws.amazon.com/codewhisperer/latest/userguide/glue-setup.html'
+          - id: W28
+            reason: "Resource role name explicitly named."
+Outputs:
+  IAMRole:
+    Description: IAMRole
+    Value: !Ref NotebookIAMRole
