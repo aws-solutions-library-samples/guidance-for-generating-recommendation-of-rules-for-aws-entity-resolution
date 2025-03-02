@@ -19,9 +19,6 @@ This Guidance provides an AWS Glue notebook that automates the generation of rul
 
 ![reference_architecture](assets/images/ref_arch.jpg)
 
-2. Include the architecture diagram image, as well as the steps explaining the high-level overview and flow of the architecture. 
-    - To add a screenshot, create an ‘assets/images’ folder in your repository and upload your screenshot to it. Then, using the relative file path, add it to your README. 
-
 ### Cost
 
 _You are responsible for the cost of the AWS services used while running this Guidance. As of March 2025, the cost for running this Guidance with the default settings in the us-east-1 AWS Region is approximately $22.00 per month for running the AWS Glue notebook for 10 hours in a month consuming 5 DPUs._
@@ -62,7 +59,8 @@ This deployment requires you to have the following resources enabled and availab
 
 ![create cloudformation stack](assets/images/create_stack.jpg)
 
-5. Proceed through the stack creation process and deploy the stack. This will create an IAM role starting with `RuleRecommendationNotebookIAMRole-`. This role will be used in the AWS Glue notebook creation process
+5. Proceed through the stack creation process and deploy the stack. This will create an IAM role starting with `RuleRecommendationNotebookIAMRole-`. This role will be used in the AWS Glue notebook creation process.
+
 6. Import the notebook within AWS Glue
    - Navigate to [AWS Glue](https://us-east-1.console.aws.amazon.com/glue/home) in the AWS Console
    - Select `Notebooks` in the left navigation bar
@@ -92,10 +90,12 @@ This deployment requires you to have the following resources enabled and availab
 
 * Navigate to [AWS Glue](https://us-east-1.console.aws.amazon.com/glue/home) and launch the notebook. It may take a few minutes as the notebook starts
 * Once the notebook has started, update the content in **Section 2.a** with details of your AWS Entity Resolution schema mapping name, and the source AWS Glue table.
+
 ![source schema details](assets/images/data_prep.jpg)
 
 
 * Update the content in **Section 4.a** with the details of Claude 3.5 Sonnet v2 model id. Replace the `region` and the `AWSAccountNumber`.
+
 ![image](assets/images/llm_config.jpg)
 
 
