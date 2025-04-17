@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: "Create an IAM role equipped with permissions to execute an AWS Glue notebook that can communicate with AWS Entity Resolution, and Amazon Bedrock (XXXX)."
+Description: "Create an IAM role equipped with permissions to execute an AWS Glue notebook that can communicate with AWS Entity Resolution, and Amazon Bedrock (SO9025)."
 
 Resources:
   NotebookIAMRole:
